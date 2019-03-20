@@ -6,16 +6,16 @@ import App from './App';
 
 
 // 关于队列
-import queue from './reducers/Queue';
+import queue from './reducers/PriorityQueue';
 
 const myQueue = queue({});
 
 const store = createStore(myQueue);
 
-store.subscribe(()=> console.log(store.getState()));
+// store.subscribe(()=> console.log(store.getState()));
 
-store.dispatch({ type: 'enqueue',payload: 'new' });
-store.dispatch({ type: 'dequeue' });
+// store.dispatch({ type: 'enqueue',payload: 'new' });
+// store.dispatch({ type: 'dequeue' });
 
 // import rootReducer from './reducers/index';
 

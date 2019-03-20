@@ -1,29 +1,52 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+class TempCustomer extends Component{
+    render(){
+        const {dataStore} = this.props
+        if(dataStore.length>0){
+            return <h1>当前为: {dataStore[0].name}</h1>
+        } else {
+            return null;
+        }        
+    }
+}
+
+const Customer = connect(mapStateToProps)(TempCustomer);
 class App extends Component {
-  onClick = function() {
-    this.props.dispatch({ type: "enqueue", payload: Math.random() });
+  onAddVip = function() {
+    this.props.dispatch({
+      type: "enqueue",
+      payload: { name: "VIP_" + Math.random(), priority: 1 }
+    });
+  };
+  onAdd = function() {
+    this.props.dispatch({
+      type: "enqueue",
+      payload: { name: "" + Math.random(), priority: 2 }
+    });
   };
   onDelete = function() {
-    this.props.dispatch({ type: "dequeue"});
+    this.props.dispatch({ type: "dequeue" });
   };
   render() {
-    console.log(this.props);
     return (
       <div className="App">
-        <header className="App-header" />
         {this.props.dataStore.map((ele, index) => {
-          return <p key={`item-${index}`}>{ele}</p>;
+          return <p key={`item-${index}`}>{ele.name}</p>;
         })}
-        <button onClick={this.onClick.bind(this)} />
-        <button onClick={this.onDelete.bind(this)} />
+        <button onClick={this.onAddVip.bind(this)}>++</button>
+        <button onClick={this.onAdd.bind(this)}>+</button>
+        <button onClick={this.onDelete.bind(this)}>-</button>
+
+        <Customer></Customer>
       </div>
     );
   }
-
 }
 
-const mapStateToProps = (state, ownProps) => {
+
+
+function mapStateToProps(state, ownProps) {
   return {
     dataStore: state.dataStore
   };
