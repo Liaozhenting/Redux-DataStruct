@@ -8,7 +8,6 @@
     "react-redux": "^6.0.1",
     "react-scripts": "2.1.1",
     "redux": "^4.0.1",
-    "redux-saga": "^0.16.2",
     "seamless-immutable": "^7.1.4"
   },
   "scripts": {
