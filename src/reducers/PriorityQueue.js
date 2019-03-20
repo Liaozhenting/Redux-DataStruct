@@ -63,15 +63,15 @@ function packageState(state) {
 
 export default function({ initialState = queue }) {
   return function(state = initialState, action) {
-    const { type } = action;
-    if (type === "enqueue") {
-      state.enqueue(itemGetter(action));
-      return packageState(state);
-    } else if (type === "dequeue") {
-      state.dequeue();
-      return packageState(state);
-    } else {
-      return state;
+    switch (action.type) {
+      case "enqueue":
+        state.enqueue(itemGetter(action));
+        return packageState(state);
+      case "dequeue":
+        state.enqueue(itemGetter(action));
+        return packageState(state);
+      default:
+        return state;
     }
   };
 }

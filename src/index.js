@@ -12,23 +12,7 @@ const myQueue = queue({});
 
 const store = createStore(myQueue);
 
-// store.subscribe(()=> console.log(store.getState()));
-
-// store.dispatch({ type: 'enqueue',payload: 'new' });
-// store.dispatch({ type: 'dequeue' });
-
-// import rootReducer from './reducers/index';
-
-// import createSaga from 'redux-saga';
-// import createLog from './redux-middlewares/log';
-// const saga = createSaga(); 
-// const log = createLog();
-// const middlewares = [saga,log];
-// const store = createStore(
-//   rootReducer,
-//   applyMiddleware(...middlewares)
-// );
-// store.dispatch({type:'myAction'});
+store.subscribe(()=> console.log(store.getState()));
 
 ReactDOM.render(  <Provider store={store}>
     <App />
