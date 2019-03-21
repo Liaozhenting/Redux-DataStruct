@@ -6,7 +6,7 @@ import App from './App';
 
 
 // 关于队列
-import queue from './reducers/Queue';
+import queue from './reducers/PriorityQueue';
 
 const myQueue = queue({});
 
