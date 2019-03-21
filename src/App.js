@@ -4,7 +4,7 @@ class TempCustomer extends Component{
     render(){
         const {dataStore} = this.props
         if(dataStore.length>0){
-            return <h1>当前为: {dataStore[0].name}</h1>
+            return <h1>当前在厕所里的人: {dataStore[0].name}</h1>
         } else {
             return null;
         }        
@@ -48,7 +48,7 @@ class App extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    dataStore: state.dataStore
+    dataStore: state
   };
 };
 

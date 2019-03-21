@@ -1,59 +1,46 @@
 import Immutable from "seamless-immutable";
-class Queue {
-  constructor() {
-    this.dataStore = [];
-  }
 
-  enqueue(ele) {
-    this.dataStore.push(ele);
-  }
-  dequeue() {
-    return this.dataStore.shift();
-  }
-  front() {
-    return this.dataStore[0];
-  }
-
-  back() {
-    return this.dataStore[this.dataStore.length - 1];
-  }
-
-  toString() {
-    let retStr = "";
-    for (let i = 0; i < this.dataStore.length; i++) {
-      retStr += `${this.dataStore[i]}\n`;
-    }
-    return retStr;
-  }
-
-  empty() {
-    if (this.dataStore.length === 0) return true;
-    else return false;
-  }
-
-  count() {
-    return this.dataStore.length;
-  }
+function isEmpty(data) {
+  if(!data)return false;
+  return data.length === 0;
 }
 
-var queue = new Queue();
 function itemGetter(action) {
   return action.payload;
 }
 
-export default function({ initialState = queue }) {
-  return function(state = initialState, action) {
+export default function ({ initialState = Immutable([]) }) {
+  return function (state = initialState, action) {
     const { type } = action;
+    const ele = itemGetter(action);
     if (type === "enqueue") {
-      state.enqueue(itemGetter(action));
-      state.dataStore = state.dataStore.slice(0);
-      return Object.assign(new Queue(), state);
+      if (isEmpty(state.dataStore)) {
+        //如果队列是空的，直接插入
+        console.log(state.dataStore.concat([ele]));
+        return state.concat([ele]);
+        // this.set('dataStore', this.dataStore.concat([ele]))
+  
+      } else {
+        var bAdded = false;
+        const origin = state.asMutable();
+        for (var i = 0, len = origin.length; i < len; i++) {
+          if (ele.priority < origin[i].priority) {
+            origin.splice(i, 0, ele); // 循环队列，如果优先级小于这个位置元素的优先级，插入
+            bAdded = true;
+            break;
+          }
+        }
+        if (!bAdded) {
+          return state.concat([ele]);
+        }
+        return Immutable(origin);
+      }
     } else if (type === "dequeue") {
-      state.dequeue();
-      state.dataStore = state.dataStore.slice(0);
-      return Object.assign(new Queue(), state);
+      const origin = state.asMutable();
+      origin.shift();
+      return Immutable(origin);
     } else {
-        return state;
+      return state;
     }
   };
 }
